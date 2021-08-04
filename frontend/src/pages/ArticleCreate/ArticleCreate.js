@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -6,12 +6,14 @@ import Button from 'react-bootstrap/Button';
 import { ROUTE_ARTICLE_LIST } from '../../constants';
 import { createArticle } from '../../services/articles';
 import RegionDropdown from '../../components/RegionDropdown/RegionDropdown';
+import AuthorDropdown from '../../components/AuthorDropdown/AuthorDropdown';
 
 function ArticleCreate() {
     const history = useHistory();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [regions, setRegions] = useState([]);
+    const [author, setAuthor] = useState('')
 
     const handleSave = async () => {
         const payload = { title, content, regions };
@@ -47,6 +49,13 @@ function ArticleCreate() {
                     <RegionDropdown
                         value={ regions }
                         onChange={ (regions) => setRegions(regions) }
+                    />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Author</Form.Label>
+                    <AuthorDropdown
+                        value={ author }
+                        onChange={ (author) => setAuthor(author) }
                     />
                 </Form.Group>
                 <Button variant="primary" onClick={ handleSave }>
