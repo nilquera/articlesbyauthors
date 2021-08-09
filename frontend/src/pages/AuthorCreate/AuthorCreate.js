@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 
 import { ROUTE_AUTHOR_LIST } from '../../constants';
 import { createAuthor } from '../../services/authors';
-import RegionDropdown from '../../components/RegionDropdown/RegionDropdown';
 
 function AuthorCreate() {
     const history = useHistory();

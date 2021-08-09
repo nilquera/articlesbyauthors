@@ -18,12 +18,12 @@ function ArticleList() {
     }, []);
 
     const renderArticles = () => articles.map((article) => {
-        const { id, title } = article;
+        const { id, title, author } = article;
 
         return (
             <tr key={ id }>
                 <td>
-                    <Link to={ `${ROUTE_ARTICLE_PREFIX}/${id}` }>{ title }</Link>
+                    <Link to={ `${ROUTE_ARTICLE_PREFIX}/${id}` }>{ title }</Link>{author && ` by ${author.firstName} ${author.lastName}`}
                 </td>
             </tr>
         );

@@ -3,14 +3,17 @@ import Multiselect from 'react-widgets/lib/DropdownList'
 
 import { listAuthors } from '../../services/authors';
 
-function RegionDropdown({ value, onChange }) {
-    const [authors, setAuthors] = useState([]);
+import { UNDEFINED_AUTHOR } from "../../constants"
 
+
+function AuthorDropdown({ value = UNDEFINED_AUTHOR, onChange }) {
+    const [authors, setAuthors] = useState([]);
 
     useEffect(() => {
         const fetchAuthors = async () => {
             const data = await listAuthors();
-            setAuthors(data);
+            console.log(data);
+            setAuthors([...data, UNDEFINED_AUTHOR]);
         };
 
         fetchAuthors();
@@ -20,14 +23,15 @@ function RegionDropdown({ value, onChange }) {
         <div className="RegionDropdown">
             <Multiselect
                 value={ value }
-                data={ authors.map(author => `${author.firstName} ${author.lastName}`) }
-                textField="name"
-                valueField="id"
-                onChange={ onChange }
+                data={ authors }
+                dataKey='id'
+                textField="firstName"
+                valueField="lastName"
+                onChange={onChange}
                 allowCreate={ false }
             />
         </div>
     );
 }
 
-export default RegionDropdown;
+export default AuthorDropdown;

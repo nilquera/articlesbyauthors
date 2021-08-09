@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import { ROUTE_ARTICLE_LIST } from '../../constants';
+import { ROUTE_ARTICLE_LIST, UNDEFINED_AUTHOR } from '../../constants';
 import { createArticle } from '../../services/articles';
 import RegionDropdown from '../../components/RegionDropdown/RegionDropdown';
 import AuthorDropdown from '../../components/AuthorDropdown/AuthorDropdown';
@@ -13,10 +13,14 @@ function ArticleCreate() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [regions, setRegions] = useState([]);
-    const [author, setAuthor] = useState('')
+    const [author, setAuthor] = useState()
 
     const handleSave = async () => {
         const payload = { title, content, regions };
+        if (author !== UNDEFINED_AUTHOR) {
+            payload["authorId"] = author.id
+            payload["author"] = author
+        }
         await createArticle(payload);
         history.push(ROUTE_ARTICLE_LIST);
     };

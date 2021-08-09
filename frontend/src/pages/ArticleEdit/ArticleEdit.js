@@ -3,9 +3,10 @@ import { useHistory, useParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import { ROUTE_ARTICLE_LIST } from '../../constants';
+import { ROUTE_ARTICLE_LIST, UNDEFINED_AUTHOR } from '../../constants';
 import { getArticle, editArticle } from '../../services/articles';
 import RegionDropdown from '../../components/RegionDropdown/RegionDropdown';
+import AuthorDropdown from '../../components/AuthorDropdown/AuthorDropdown';
 
 function ArticleEdit(props) {
     const history = useHistory();
@@ -13,6 +14,7 @@ function ArticleEdit(props) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [regions, setRegions] = useState([]);
+    const [author, setAuthor] = useState()
 
     useEffect(() => {
         const fetchArticle = async () => {
@@ -20,13 +22,21 @@ function ArticleEdit(props) {
             setTitle(data.title);
             setContent(data.content);
             setRegions(data.regions);
+            if (author) setAuthor(data.author)
         };
 
         fetchArticle();
     }, [articleId]);
 
     const handleSave = async () => {
-        const payload = { title, content, regions };
+        let payload = { title, content, regions };
+        if (author !== UNDEFINED_AUTHOR) {
+            payload["authorId"] = author.id
+            payload["author"] = author
+        } else {
+            payload["authorId"] = null;
+            payload["author"]= null;
+        }
         await editArticle(articleId, payload);
         history.push(ROUTE_ARTICLE_LIST);
     };
@@ -59,6 +69,13 @@ function ArticleEdit(props) {
                     <RegionDropdown
                         value={ regions }
                         onChange={ (regions) => setRegions(regions) }
+                    />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Author</Form.Label>
+                    <AuthorDropdown
+                        value={ author }
+                        onChange={ (author) => setAuthor(author) }
                     />
                 </Form.Group>
                 <Button variant="primary" onClick={ handleSave }>

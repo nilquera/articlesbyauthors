@@ -8,3 +8,9 @@ export const ROUTE_AUTHOR_PREFIX = '/authors';
 export const ROUTE_AUTHOR_LIST = '/authors/list';
 export const ROUTE_AUTHOR_CREATE = '/authors/create';
 export const ROUTE_AUTHOR_EDIT = '/authors/:authorId';
+
+export const UNDEFINED_AUTHOR = {
+    id: -1,
+    firstName: "No author",
+    lastName: ""
+}
