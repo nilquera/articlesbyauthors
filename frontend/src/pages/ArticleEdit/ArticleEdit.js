@@ -22,7 +22,7 @@ function ArticleEdit(props) {
             setTitle(data.title);
             setContent(data.content);
             setRegions(data.regions);
-            if (author) setAuthor(data.author)
+            if (data.author) setAuthor(data.author)
         };
 
         fetchArticle();
